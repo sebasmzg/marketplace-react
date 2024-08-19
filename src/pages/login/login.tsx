@@ -1,7 +1,10 @@
 import { Box, Button, Container, Grid, Paper, TextField, Typography } from "@mui/material";
 import React from "react";
+import { useNotification } from "../../context/notification.context";
+import { LoginValidate } from "../../utils/validate.form";
 
 export const LoginPage: React.FC = () =>{
+    const { getError, getSuccess} = useNotification();
 
     type LoginProps = {
         email: string,
@@ -21,8 +24,11 @@ export const LoginPage: React.FC = () =>{
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
-        console.log(loginData);
-        
+        LoginValidate.validate(loginData).then(()=>{
+            getSuccess("Login success");
+        }).catch((error)=>{
+            getError(error.message);
+        });
     };
 
     return (
@@ -51,7 +57,6 @@ export const LoginPage: React.FC = () =>{
                                 label="Email" 
                                 sx={{mt:2,mb:1.5}}
                                 onChange={dataLogin}
-                                required 
                             />
                             <TextField
                                 name="password"
@@ -61,7 +66,6 @@ export const LoginPage: React.FC = () =>{
                                 label="Password" 
                                 sx={{mt:1.5,mb:1.5}}
                                 onChange={dataLogin}
-                                required 
                             />
                             <Button 
                                 fullWidth 

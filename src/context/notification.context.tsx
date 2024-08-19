@@ -4,6 +4,7 @@ import { Snackbar } from '@mui/material'; // Import the correct component
 
 export type ContextProps = {
     getError: (message:string) => void,
+    getSuccess: (message:string) => void,
 }
 
 const NotificationContext = React.createContext<ContextProps | null>(null);
@@ -21,7 +22,15 @@ export const NotificationProvider: React.FC<{ children: JSX.Element }> = ({ chil
         setNotification({
             severity: "error",
             open: true,
-            message: "An error occurred",
+            message: message,
+        });
+    };
+
+    const getSuccess = (message:string) => {
+        setNotification({
+            severity: "success",
+            open: true,
+            message: message,
         });
     };
 
@@ -33,7 +42,8 @@ export const NotificationProvider: React.FC<{ children: JSX.Element }> = ({ chil
     };
 
     const value = {
-        getError
+        getError,
+        getSuccess,
     };
 
     return (
@@ -48,13 +58,13 @@ export const NotificationProvider: React.FC<{ children: JSX.Element }> = ({ chil
     );
 };
 
-export const useNotification = (): ((message: string) => void) => {
+export const useNotification = () => {
     const context = React.useContext(NotificationContext);
     if(!context){
         throw new Error("useNotification must be used within a NotificationProvider");
 
     }
-    return context.getError;
+    return context;
 }
     
     
