@@ -1,1 +1,2 @@
-export { Notifications } from "./notifications/notifications";
+export { Notifications } from "./notifications";
+export { HeaderComponent } from "./header";
