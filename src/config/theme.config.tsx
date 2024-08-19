@@ -10,6 +10,9 @@ enum ThemePalette {
     BG = "#12181d",
     LIME= "#c8fa5f",
     FONT_GLOBAL= " 'JetBrains Mono', monospace",
+    //Alert styles
+    ERROR_MAIN= "F44336",
+    BG_ERROR_MAIN= "rgba(244,67,54,0.1)",
 }
 
 const theme = createTheme({
@@ -32,6 +35,18 @@ const theme = createTheme({
                     textTransform: "none",
                     boxShadow: "none",
                     borderRadius: "0.5em",
+                },
+            },
+        },
+        MuiAlert:{
+            styleOverrides:{
+                root:{
+                    borderRadius: "0.8em",
+                    fontSize: "1em",
+                },
+                standardError:{
+                    backgroundColor: ThemePalette.BG_ERROR_MAIN,
+                    color: ThemePalette.ERROR_MAIN,
                 },
             },
         },
