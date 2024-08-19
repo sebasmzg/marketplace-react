@@ -9,6 +9,9 @@ export const HomePage: React.FC = () =>{
         characters.getAll({page: 1}).then((res)=>{
             console.log(res.data);            
         }).catch((err)=>{{console.log(err)}});
+        characters.getById(1).then((res)=>{
+            console.log(res.data);            
+        }).catch((err)=>{{console.log(err)}});
     },[]);
 
     return (
