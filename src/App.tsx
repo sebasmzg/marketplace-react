@@ -1,13 +1,13 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { Button, Container } from '@mui/material';
+import { BrowserRouter } from 'react-router-dom';
+import { AppRouter } from './router';
 
 function App() {
   return (
-    <Container maxWidth="xl">
-      <Button variant='contained'>Hola mundo</Button>
-    </Container>
+    <div>
+      <BrowserRouter>
+        <AppRouter/>
+      </BrowserRouter>
+    </div>
   );
 }
 
