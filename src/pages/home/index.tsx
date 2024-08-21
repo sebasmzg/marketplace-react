@@ -10,19 +10,21 @@ export const HomePage: React.FC = () =>{
     const [allCharacters,setCharacters] = React.useState<ICharacter[] | null>(null);
     const [loading, setLoading] = React.useState<boolean>(true);
     const [page, setPage] = React.useState<number>(1);
+    const [totalPages, setTotalPages] = React.useState<number>(1);
 
     React.useEffect(()=>{ 
         setLoading(true);
         characters
-            .getAll({page: 1})
+            .getAll({page: page})
             .then((res)=>{
                 setCharacters(res.data.results);
-                setTimeout(()=>setLoading(false),1000);        
+                setTotalPages(res.data.info.pages);
+                setTimeout(()=>setLoading(false),400);        
             })
             .catch((err: Error)=>{
                 {console.log(err)}
             });
-    },[]);
+    },[page]);
 
     const handleChange = (event: React.ChangeEvent<unknown>, value: number) =>{
         setPage(value)
@@ -69,7 +71,15 @@ export const HomePage: React.FC = () =>{
                         }
                     </div>
                     <Box sx={{width:"100%", display: "flex", justifyContent: "center"}}>
-                        <Pagination count={10} page={page} onChange={handleChange} color="primary" /> 
+                        <Pagination 
+                            count={totalPages} 
+                            page={page} 
+                            onChange={handleChange} 
+                            variant="outlined" 
+                            color="primary" 
+                            sx={{mb:4}}
+                            size="large"
+                        /> 
                     </Box>
                 </>
             )}
