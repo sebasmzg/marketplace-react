@@ -1,4 +1,4 @@
-import { Box, Button, Card, Container, Grid } from "@mui/material";
+import { Box, Button, Card, CircularProgress, Container, Grid } from "@mui/material";
 import React from "react";
 import { HeaderComponent } from "../../components/header";
 import { characters } from "../../services/characters";
@@ -22,11 +22,19 @@ import { Gender, ICharacter, Species, Status } from "../../types/character";
 export const HomePage: React.FC = () =>{
     
     const [allCharacters,setCharacters] = React.useState<ICharacter[] | null>(null);
+    const [loading, setLoading] = React.useState<boolean>(true);
 
     React.useEffect(()=>{ 
-        characters.getAll({page: 1}).then((res)=>{
-            setCharacters(res.data.results);            
-        }).catch((err: Error)=>{{console.log(err)}});
+        setLoading(true);
+        characters
+            .getAll({page: 1})
+            .then((res)=>{
+                setCharacters(res.data.results);
+                setTimeout(()=>setLoading(false),1000);        
+            })
+            .catch((err: Error)=>{
+                {console.log(err)}
+            });
     },[]);
 
     return (
@@ -38,31 +46,41 @@ export const HomePage: React.FC = () =>{
                     <Button variant="contained" fullWidth sx={{padding: "0.5rem", fontSize: "1.5rem"}}>Start</Button>
                 }
             />
-            <div>
-                {
-                    allCharacters !== null && allCharacters.length !== 0 ? (
-                        <Grid container spacing={2} direction={"row"}>
-                            {
-                                allCharacters!.map((character)=>(
-                                    <Grid item xs={3}>
-                                        <CardComponent 
-                                            key={character.id}
-                                            image={character.image}
-                                            name={character.name}
-                                            status={character.status}
-                                            species={character.species}
-                                            gender={character.gender}
-                                            origin={character.origin}
-                                        />
-                                    </Grid>
-                                ))
-                            }
-                        </Grid>
-                    ) : (
-                        <h1>Loading...</h1>
-                    )
-                }
-            </div>
+            {loading ? (
+                <Box sx={{ display: "flex", justifyContent: "center", mt: 4}}>
+                    <CircularProgress />
+                </Box>
+            ) : (
+
+                <div>
+                    {
+                        allCharacters !== null && allCharacters.length !== 0 ? (
+                            <Grid sx={{my:2}} container spacing={2} direction={"row"}>
+                                {
+                                    allCharacters!.map((character)=>(
+                                        <Grid item xs={3}>
+                                            <CardComponent 
+                                                key={character.id}
+                                                image={character.image}
+                                                name={character.name}
+                                                status={character.status}
+                                                species={character.species}
+                                                gender={character.gender}
+                                                origin={character.origin}
+                                            />
+                                        </Grid>
+                                    ))
+                                }
+                            </Grid>
+                        ) : (
+                            <h1>Loading...</h1>
+                        )
+                    }
+
+                </div>
+            )
+
+            }
         </Container>
     )
 }
