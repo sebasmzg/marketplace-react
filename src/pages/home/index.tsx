@@ -1,28 +1,15 @@
-import { Box, Button, Card, CircularProgress, Container, Grid } from "@mui/material";
 import React from "react";
+import { Box, Button, Card, CircularProgress, Container, Grid, Pagination, Stack } from "@mui/material";
 import { HeaderComponent } from "../../components/header";
 import { characters } from "../../services/characters";
 import { CardComponent } from "../../components";
-import { Gender, ICharacter, Species, Status } from "../../types/character";
-
-/* const initialCharacter: Result = {
-    id: 0,
-    name: "",
-    image: "",
-    gender: Gender.Unknown,
-    status: Status.Unknown,
-    species: Species.Human,
-    type: "",
-    origin: {
-        name: "",
-        url: ""
-    },
-} */
+import {ICharacter } from "../../types/character";
 
 export const HomePage: React.FC = () =>{
     
     const [allCharacters,setCharacters] = React.useState<ICharacter[] | null>(null);
     const [loading, setLoading] = React.useState<boolean>(true);
+    const [page, setPage] = React.useState<number>(1);
 
     React.useEffect(()=>{ 
         setLoading(true);
@@ -36,6 +23,10 @@ export const HomePage: React.FC = () =>{
                 {console.log(err)}
             });
     },[]);
+
+    const handleChange = (event: React.ChangeEvent<unknown>, value: number) =>{
+        setPage(value)
+    }
 
     return (
         <Container  maxWidth="xl">
@@ -51,36 +42,37 @@ export const HomePage: React.FC = () =>{
                     <CircularProgress />
                 </Box>
             ) : (
-
-                <div>
-                    {
-                        allCharacters !== null && allCharacters.length !== 0 ? (
-                            <Grid sx={{my:2}} container spacing={2} direction={"row"}>
-                                {
-                                    allCharacters!.map((character)=>(
-                                        <Grid item xs={3}>
-                                            <CardComponent 
-                                                key={character.id}
-                                                image={character.image}
-                                                name={character.name}
-                                                status={character.status}
-                                                species={character.species}
-                                                gender={character.gender}
-                                                origin={character.origin}
-                                            />
-                                        </Grid>
-                                    ))
-                                }
-                            </Grid>
-                        ) : (
-                            <h1>Loading...</h1>
-                        )
-                    }
-
-                </div>
-            )
-
-            }
+                <>  
+                    <div>
+                        {
+                            allCharacters !== null && allCharacters.length !== 0 ? (
+                                <Grid sx={{my:2}} container spacing={2} direction={"row"}>
+                                    {
+                                        allCharacters!.map((character)=>(
+                                            <Grid item xs={3}>
+                                                <CardComponent 
+                                                    key={character.id}
+                                                    image={character.image}
+                                                    name={character.name}
+                                                    status={character.status}
+                                                    species={character.species}
+                                                    gender={character.gender}
+                                                    origin={character.origin}
+                                                />
+                                            </Grid>
+                                        ))
+                                    }
+                                </Grid>
+                            ) : (
+                                "No characters found"
+                            )
+                        }
+                    </div>
+                    <Box sx={{width:"100%", display: "flex", justifyContent: "center"}}>
+                        <Pagination count={10} page={page} onChange={handleChange} color="primary" /> 
+                    </Box>
+                </>
+            )}
         </Container>
     )
 }
