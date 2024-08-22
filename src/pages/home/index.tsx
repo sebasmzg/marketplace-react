@@ -60,6 +60,7 @@ export const HomePage: React.FC = () =>{
                                                     species={character.species}
                                                     gender={character.gender}
                                                     origin={character.origin}
+                                                    id={character.id}
                                                 />
                                             </Grid>
                                         ))

@@ -14,6 +14,7 @@ import {
     Species,
     Location
 } from "../../types/character";
+import { useNavigate } from "react-router-dom";
 
 type CardProps = {
     image: string,
@@ -22,9 +23,11 @@ type CardProps = {
     species:  Species;
     gender:   Gender;
     origin:   Location;
+    id: number | undefined;
 }
 
-export const CardComponent: React.FC<CardProps> = ({image,name,status,species,gender,origin}) => {
+export const CardComponent: React.FC<CardProps> = ({image,name,status,species,gender,origin,id}) => {
+    let navigate = useNavigate();
     return (
         <Card>
             <CardMedia 
@@ -58,8 +61,9 @@ export const CardComponent: React.FC<CardProps> = ({image,name,status,species,ge
                     variant="contained"
                     size="small"
                     fullWidth    
+                    onClick={()=>navigate(`/character/${id}`)}
                 >
-                    More
+                    Details
                 </Button>
             </CardActions>
         </Card>
