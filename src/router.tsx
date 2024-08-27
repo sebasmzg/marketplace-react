@@ -1,18 +1,16 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { HomePage } from "./pages/home";
-import { LoginPage } from "./pages/login";
+import { HomePage, LoginPage, CharacterPage } from "./pages";
 import { RouterLayout } from "./common/router-layout";
-import { CharacterPage } from "./pages/character";
 
-export const AppRouter: React.FC = ()=>{
-    return (
-        <Routes>
-            <Route path="/" element={<RouterLayout/>}>
-                <Route path="/" element={<HomePage/>}/>
-                <Route path="/character/:id" element={<CharacterPage/>}/>
-            </Route>
-            <Route path="/login" element={<LoginPage/>}/>
-        </Routes>
-    )
-}
+export const AppRouter: React.FC = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<RouterLayout />}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/character/:id" element={<CharacterPage />} />
+      </Route>
+      <Route path="/login" element={<LoginPage />} />
+    </Routes>
+  );
+};
