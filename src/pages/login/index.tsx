@@ -11,6 +11,9 @@ import React from "react";
 import { useNotification } from "../../context/notification.context";
 import { LoginValidate } from "../../utils/validate.form";
 import { useFormik } from "formik";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { login } from "../../redux/slices/auth.slice";
+import { Navigate, useNavigate } from "react-router-dom";
 
 type LoginType = {
   email: string;
@@ -18,7 +21,10 @@ type LoginType = {
 };
 
 const LoginPage: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { isAuth } = useAppSelector((state) => state.authReducer);
   const { getSuccess } = useNotification();
+  const navigate = useNavigate();
   const formik = useFormik<LoginType>({
     initialValues: {
       email: "",
@@ -26,11 +32,15 @@ const LoginPage: React.FC = () => {
     },
     validationSchema: LoginValidate,
     onSubmit: (values) => {
-      getSuccess(JSON.stringify(values));
+      dispatch(login());
+      navigate("/");
+      getSuccess(`Welcome ${values.email}`);
     },
   });
 
-  return (
+  return isAuth ? (
+    <Navigate to="/" replace />
+  ) : (
     <Container maxWidth="sm">
       <Grid
         container
@@ -87,7 +97,7 @@ const LoginPage: React.FC = () => {
         </Grid>
       </Grid>
     </Container>
-    );
-}
+  );
+};
 
 export default LoginPage;

@@ -21,7 +21,7 @@ export const CartComponent: React.FC<CartComponentProps> = ({
 }) => {
   const items = useAppSelector((state) => state.cartReducer);
   return (
-    <Drawer anchor={"right"} open={open}>
+    <Drawer anchor={"right"} open={open} >
       <Box sx={{ width: "25em", p: 2 }}>
         <Stack
           direction="row"
