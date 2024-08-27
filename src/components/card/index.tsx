@@ -12,6 +12,7 @@ import { Status, Gender, Species, Location } from "../../types/character";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { addToCart } from "../../redux/slices/cart.slice";
+import { setItem } from "../../utils/localStorage";
 
 type CardProps = {
   image: string;
@@ -41,6 +42,7 @@ export const CardComponent: React.FC<CardProps> = ({
   //si el item existe en el carrito, deshabilita el boton
   React.useEffect(() => {
     setDisabledBtn(itemExist.some((item) => item.id === id));
+    setItem("cart", itemExist);
   },[itemExist, id]);
 
   const addtoCartHandler = () => {
