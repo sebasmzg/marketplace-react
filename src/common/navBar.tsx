@@ -46,25 +46,26 @@ export const NavBar: React.FC = () => {
               </Grid>
               <Grid item>
                 {isAuth ? (
-                  <Button variant="contained" onClick={ ()=> handlerLogout() }>Logout</Button>
-                ) : (
                   <Stack direction={"row"} spacing={2}>
-                    <IconButton
-                      color="primary"
-                      onClick={() => handleStateViewDrawer()}
-                    >
-                      <Badge color="error" badgeContent={items.length}>
-                        <ShoppingCartOutlined />
-                      </Badge>
-                    </IconButton>
-                    <Button
-                      variant="contained"
-                      onClick={() => navigate("login")}
-                    >
-                      Login
-                    </Button>
-                    <Button variant="outlined">Register</Button>
-                  </Stack>
+                  <IconButton
+                    color="primary"
+                    onClick={() => handleStateViewDrawer()}
+                  >
+                    <Badge color="error" badgeContent={items.length}>
+                      <ShoppingCartOutlined />
+                    </Badge>
+                  </IconButton>
+                  {/* <Button
+                    variant="contained"
+                    onClick={() => navigate("login")}
+                  >
+                    Login
+                  </Button>
+                  <Button variant="outlined">Register</Button> */}
+                  <Button variant="contained" onClick={ ()=> handlerLogout() }>Logout</Button>
+                </Stack>
+                ) : (
+                  "nothing"
                 )}
               </Grid>
             </Grid>

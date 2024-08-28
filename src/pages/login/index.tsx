@@ -8,12 +8,12 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { useNotification } from "../../context/notification.context";
 import { LoginValidate } from "../../utils/validate.form";
 import { useFormik } from "formik";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { login } from "../../redux/slices/auth.slice";
 import { Navigate, useNavigate } from "react-router-dom";
+import { authThunk } from "../../redux/thunks/auth.thunks";
+
 
 type LoginType = {
   email: string;
@@ -21,9 +21,10 @@ type LoginType = {
 };
 
 const LoginPage: React.FC = () => {
+  //user: sebas@nature.dev
+  //pass: naturedev123
   const dispatch = useAppDispatch();
   const { isAuth } = useAppSelector((state) => state.authReducer);
-  const { getSuccess } = useNotification();
   const navigate = useNavigate();
   const formik = useFormik<LoginType>({
     initialValues: {
@@ -31,10 +32,9 @@ const LoginPage: React.FC = () => {
       password: "",
     },
     validationSchema: LoginValidate,
-    onSubmit: (values) => {
-      dispatch(login());
+    onSubmit: (values: LoginType) => {
+      dispatch(authThunk({ username: values.email, password: values.password }));
       navigate("/");
-      getSuccess(`Welcome ${values.email}`);
     },
   });
 
